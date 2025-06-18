@@ -137,23 +137,49 @@ class _DetailsPageState extends State<DetailsPage> {
                             ),
                           ),
                           const SizedBox(height: 4),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            height: 30,
-                            width: 120,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              color: hexToColor('8aaee0'),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Text(
-                                  'Guarantee',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                Icon(Icons.keyboard_arrow_down),
-                              ],
+                          PopupMenuButton<String>(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(25)),
+                            color: hexToColor('5f83b1'),
+                            itemBuilder:
+                                (context) => [
+                                  PopupMenuItem(
+                                    enabled: false,
+                                    child: Text('John',style: TextStyle(color: Colors.black87),),
+                                  ),
+                                  PopupMenuItem(
+                                    enabled: false,
+                                    child: Text('Self',style: TextStyle(color: Colors.black87),),
+                                  ),
+                                  PopupMenuItem(
+                                    enabled: false,
+                                    child: Text('Mary',style: TextStyle(color: Colors.black87),),
+                                  ),
+                                ],
+                            offset: const Offset(
+                              0,
+                              32,
+                            ), // pushes it a bit lower
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
+                              height: 30,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: hexToColor('8aaee0'),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: const [
+                                  Text(
+                                    'Guarantee',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  Icon(Icons.keyboard_arrow_down),
+                                ],
+                              ),
                             ),
                           ),
                         ],
