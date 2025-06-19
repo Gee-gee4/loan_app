@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:loan_app/utils/color_convert.dart';
 
-Color hexToColor(String hex) {
-  return Color(int.parse('0xFF$hex'));
-}
-
-//........................................................................................
 SizedBox reusableTextField(
   String text,
   IconData? icon,
@@ -61,6 +57,7 @@ SizedBox reusableTextField(
 
 //........................................................................................
 Image myImages(String imageName) {
+  print('Loading image: $imageName');
   return Image.asset(
     imageName,
     fit: BoxFit.fitHeight,

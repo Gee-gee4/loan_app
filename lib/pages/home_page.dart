@@ -1,6 +1,10 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
+import 'package:loan_app/model/member_model.dart';
+import 'package:loan_app/module/members_service.dart';
 import 'package:loan_app/pages/details_page.dart';
-import 'package:loan_app/widgets/reusable_widgets.dart';
+import 'package:loan_app/utils/color_convert.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,6 +15,36 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // final TextEditingController _searchTextController = TextEditingController();
+  List<MemberModel> members = [];
+  bool isLoading = true;
+
+  //creates an instance of your service class so you can call: _membersService.fetchMembers()
+  final MembersService _membersService = MembersService();
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchMembers();
+  }
+
+  void _fetchMembers() async {
+    try {
+      // print('Fetching members...');
+      final fetched = await _membersService.fetchMembers();
+      // print('Fetched ${fetched.length} members');
+
+      setState(() {
+        members = fetched;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      print('Error fetching members: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,124 +57,116 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Members:',
-                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        height: 45,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            bottomLeft: Radius.circular(12),
-                          ),
-                          color: Colors.blueGrey[400],
-                        ),
-                        child: Center(child: Text('Sort')),
-                      ),
-                      Container(
-                        height: 45,
-                        width: 75,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(12),
-                            bottomRight: Radius.circular(12),
-                          ),
-                          color: Colors.blueGrey,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 4),
-                          child: Row(
-                            children: [
-                              Text('A-Z'),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.keyboard_arrow_down),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 15),
-              ListTile(
-                leading: CircleAvatar(
-                  radius: 30,
-                  backgroundColor: hexToColor('5f83b1'),
-                  child: Text('GM'),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Members:',
+                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
                 ),
-                title: Text('Gladys Murugi', style: TextStyle(fontSize: 19)),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
-                    Text('ID:23542376', style: TextStyle(fontSize: 17)),
-                    Text('No:0739293729', style: TextStyle(fontSize: 15)),
+                    Container(
+                      height: 45,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          bottomLeft: Radius.circular(12),
+                        ),
+                        color: Colors.blueGrey[400],
+                      ),
+                      child: Center(child: Text('Sort')),
+                    ),
+                    Container(
+                      height: 45,
+                      width: 75,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(12),
+                          bottomRight: Radius.circular(12),
+                        ),
+                        color: Colors.blueGrey,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 4),
+                        child: Row(
+                          children: [
+                            Text('A-Z'),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.keyboard_arrow_down),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-                trailing: Text('Shares: 4', style: TextStyle(fontSize: 16)),
-                tileColor: hexToColor('b1c9ef'),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                onTap:
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DetailsPage()),
-                    ),
-              ),
-              SizedBox(height: 13),
-            ],
-          ),
+              ],
+            ),
+            SizedBox(height: 15),
+            Expanded(
+              child:
+                  isLoading
+                      ? Center(child: CircularProgressIndicator())
+                      : members.isEmpty
+                      ? Center(child: Text('No members found'))
+                      : ListView.builder(
+                        itemCount: members.length,
+                        itemBuilder: (context, index) {
+                          final member = members[index];
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                radius: 30,
+                                backgroundColor: hexToColor('5f83b1'),
+                                child: Text(getInitials(member.memberName)),
+                              ),
+                              title: Text(
+                                member.memberName,
+                                style: TextStyle(fontSize: 19),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'ID: ${member.idNo}',
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  Text(
+                                    'No:${member.phoneNumber}',
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                              trailing: Text(
+                                'Shares ${member.memberShares}',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              tileColor: hexToColor('b1c9ef'),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              onTap:
+                                  () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailsPage(member: member),
+                                    ),
+                                  ),
+                            ),
+                          );
+                        },
+                      ),
+            ),
+            SizedBox(height: 13),
+          ],
         ),
       ),
     );
   }
 }
- // Card(
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(25),
-            //   ),
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(25),
-            //       color: Colors.grey[350],
-            //     ),
-            //     height: 120,
-            //     width: double.infinity,
-            //     padding: EdgeInsets.all(8),
-            //     child: Column(
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: [
-            //         Text('Gladys Murugi'),
-            //         Text('ID: 41266149'),
-            //         Row(
-            //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //           children: [
-            //             Text('Phone: 0768848185'),
-            //             Container(
-            //               height: 45,
-            //               width: 120,
-            //               decoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.circular(25),
-            //                 color: Colors.grey,
-            //               ),
-            //               child: Center(child: Text('Shares: 5')),
-            //             ),
-            //           ],
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),

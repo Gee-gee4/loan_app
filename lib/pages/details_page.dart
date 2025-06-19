@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:loan_app/model/member_model.dart';
+import 'package:loan_app/utils/color_convert.dart';
 import 'package:loan_app/widgets/reusable_widgets.dart';
 
 class DetailsPage extends StatefulWidget {
-  const DetailsPage({super.key});
+  const DetailsPage({super.key, required this.member});
+  final MemberModel member;
 
   @override
   State<DetailsPage> createState() => _DetailsPageState();
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,26 +55,26 @@ class _DetailsPageState extends State<DetailsPage> {
                             ),
                             child: myImages('assets/images/person.png'),
                           ),
-                          SizedBox(width: 20),
+                          SizedBox(width: 15),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Name: Gladys Mbuthia',
+                                'Name: ${widget.member.memberName}',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 19,
                                 ),
                               ),
                               Text(
-                                'ID: 41266278',
+                                'ID: ${widget.member.idNo}',
                                 style: TextStyle(
                                   color: Colors.white60,
                                   fontSize: 17,
                                 ),
                               ),
                               Text(
-                                'No: 0765382926',
+                                'No: ${widget.member.phoneNumber}',
                                 style: TextStyle(
                                   color: Colors.white60,
                                   fontSize: 17,
@@ -82,15 +86,15 @@ class _DetailsPageState extends State<DetailsPage> {
                       ),
                       SizedBox(height: 12),
                       Text(
-                        'Account No: 1008',
+                        'Account No: ${widget.member.accountNumber}',
                         style: TextStyle(color: Colors.white70, fontSize: 18),
                       ),
                       Text(
-                        'Shares: 4',
+                        'Shares: ${widget.member.memberShares}',
                         style: TextStyle(color: Colors.white60, fontSize: 17),
                       ),
                       Text(
-                        'Savings: Ksh 300',
+                        'Savings: Ksh ${widget.member.memberSavings}',
                         style: TextStyle(color: Colors.white60, fontSize: 17),
                       ),
                     ],
@@ -138,21 +142,32 @@ class _DetailsPageState extends State<DetailsPage> {
                           ),
                           const SizedBox(height: 4),
                           PopupMenuButton<String>(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(25)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadiusGeometry.circular(25),
+                            ),
                             color: hexToColor('5f83b1'),
                             itemBuilder:
                                 (context) => [
                                   PopupMenuItem(
                                     enabled: false,
-                                    child: Text('John',style: TextStyle(color: Colors.black87),),
+                                    child: Text(
+                                      'John',
+                                      style: TextStyle(color: Colors.black87),
+                                    ),
                                   ),
                                   PopupMenuItem(
                                     enabled: false,
-                                    child: Text('Self',style: TextStyle(color: Colors.black87),),
+                                    child: Text(
+                                      'Self',
+                                      style: TextStyle(color: Colors.black87),
+                                    ),
                                   ),
                                   PopupMenuItem(
                                     enabled: false,
-                                    child: Text('Mary',style: TextStyle(color: Colors.black87),),
+                                    child: Text(
+                                      'Mary',
+                                      style: TextStyle(color: Colors.black87),
+                                    ),
                                   ),
                                 ],
                             offset: const Offset(

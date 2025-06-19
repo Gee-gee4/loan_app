@@ -13,4 +13,15 @@ class MemberModel {
   final String memberName;
   final int memberShares;
   final int memberSavings;
+
+  factory MemberModel.fromJson(Map<String, dynamic> json) {
+    return MemberModel(
+      idNo: json['id_no'] ?? '',
+      accountNumber: json['account_no'] ?? '',
+      phoneNumber: json['phone_no'] ?? '',
+      memberName: json['full_name'] ?? '',
+      memberShares: (json['shares'] as num).toInt(),
+      memberSavings: (json['savings'] as num).toInt(),
+    );
+  }
 }
