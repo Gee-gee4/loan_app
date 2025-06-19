@@ -57,7 +57,7 @@ SizedBox reusableTextField(
 
 //........................................................................................
 Image myImages(String imageName) {
-  print('Loading image: $imageName');
+  // print('Loading image: $imageName');
   return Image.asset(
     imageName,
     fit: BoxFit.fitHeight,
