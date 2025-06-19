@@ -51,7 +51,67 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: hexToColor('d5deef'),
       extendBody: true,
       appBar: AppBar(
-        actions: [Icon(Icons.search)],
+        actions: [
+          SearchAnchor(
+            viewHintText: 'Search members...',
+            viewShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+              side: BorderSide(color: Colors.grey.shade300),
+            ),
+            viewBackgroundColor: hexToColor('d5deef'),
+            //FullScreen: false,
+            builder: (BuildContext context, SearchController controller) {
+              return IconButton(
+                icon: const Icon(Icons.search),
+                onPressed: () {
+                  controller.openView(); // Opens the search dropdown
+                },
+              );
+            },
+            viewLeading: Icon(Icons.search),
+            viewTrailing: [
+              IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  // This will close the search view
+                },
+              ),
+            ],
+            suggestionsBuilder: (context, controller) {
+              final query = controller.text.toLowerCase();
+
+              final results =
+                  members
+                      .where(
+                        (member) =>
+                            member.memberName.toLowerCase().contains(query) ||
+                            member.idNo.toLowerCase().contains(query) ||
+                            member.phoneNumber.toLowerCase().contains(query),
+                      )
+                      .toList();
+
+              if (results.isEmpty && query.isNotEmpty) {
+                return [const ListTile(title: Text('No matches'))];
+              }
+
+              return results.map((member) {
+                return ListTile(
+                  title: Text(member.memberName),
+                  subtitle: Text('ID: ${member.idNo}'),
+                  onTap: () {
+                    controller.closeView(member.memberName); // closes dropdown
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => DetailsPage(member: member),
+                      ),
+                    );
+                  },
+                );
+              }).toList();
+            },
+          ),
+        ],
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -155,7 +215,9 @@ class _HomePageState extends State<HomePage> {
                                   () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => DetailsPage(member: member),
+                                      builder:
+                                          (context) =>
+                                              DetailsPage(member: member),
                                     ),
                                   ),
                             ),
