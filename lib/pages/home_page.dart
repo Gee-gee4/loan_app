@@ -53,13 +53,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         actions: [
           SearchAnchor(
-            viewHintText: 'Search members...',
-            viewShape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-              side: BorderSide(color: Colors.grey.shade300),
-            ),
-            viewBackgroundColor: hexToColor('d5deef'),
-            //FullScreen: false,
+            viewBackgroundColor:hexToColor('d5deef'),
             builder: (BuildContext context, SearchController controller) {
               return IconButton(
                 icon: const Icon(Icons.search),
@@ -68,15 +62,6 @@ class _HomePageState extends State<HomePage> {
                 },
               );
             },
-            viewLeading: Icon(Icons.search),
-            viewTrailing: [
-              IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () {
-                  // This will close the search view
-                },
-              ),
-            ],
             suggestionsBuilder: (context, controller) {
               final query = controller.text.toLowerCase();
 

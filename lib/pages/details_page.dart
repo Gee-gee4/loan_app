@@ -70,92 +70,117 @@ class _DetailsPageState extends State<DetailsPage> {
               ),
               elevation: 3,
               color: hexToColor('395886'),
-              child: SizedBox(
-                height: 240,
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              child: Stack(
+                children: [
+                  SizedBox(
+                  height: 240,
+                  width: double.infinity,
+                  child: Opacity(
+                    opacity: 0.2  ,
+                    child: Image.asset(
+                      'assets/images/www.png',
+                      fit: BoxFit.cover,
+                      color: hexToColor('8aaee0'),
+                    ),
+                  ),
+                ),
+                  SizedBox(
+                    height: 240,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            height: 90,
-                            width: 90,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: hexToColor('8aaee0'),
-                            ),
-                            child: myImages('assets/images/person.png'),
-                          ),
-                          SizedBox(width: 15),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Text(
-                                'Name: ${widget.member.memberName}',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 19,
+                              Container(
+                                height: 90,
+                                width: 90,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: hexToColor('8aaee0'),
                                 ),
+                                child: myImages('assets/images/person.png'),
                               ),
-                              Text(
-                                'ID: ${widget.member.idNo}',
-                                style: TextStyle(
-                                  color: Colors.white60,
-                                  fontSize: 17,
-                                ),
-                              ),
-                              Text(
-                                'No: ${widget.member.phoneNumber}',
-                                style: TextStyle(
-                                  color: Colors.white60,
-                                  fontSize: 17,
-                                ),
+                              SizedBox(width: 15),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Name: ${widget.member.memberName}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 19,
+                                    ),
+                                  ),
+                                  Text(
+                                    'ID: ${widget.member.idNo}',
+                                    style: TextStyle(
+                                      color: Colors.white60,
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                  Text(
+                                    'No: ${widget.member.phoneNumber}',
+                                    style: TextStyle(
+                                      color: Colors.white60,
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                      SizedBox(height: 12),
-                      Text(
-                        'Account No: ${widget.member.accountNumber}',
-                        style: TextStyle(color: Colors.white70, fontSize: 18),
-                      ),
-                      Text(
-                        'Shares: ${widget.member.memberShares}',
-                        style: TextStyle(color: Colors.white60, fontSize: 17),
-                      ),
-                      Text(
-                        'Savings: Ksh ${widget.member.memberSavings}',
-                        style: TextStyle(color: Colors.white60, fontSize: 17),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Container(
-                          height: 40,
-                          width: 160,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: Colors.green,
+                          SizedBox(height: 12),
+                          Text(
+                            'Account No: ${widget.member.accountNumber}',
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 18,
+                            ),
                           ),
-                          child: Center(
-                            child: Text(
-                              'Loan Limit :6000',
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
-                                // color: Colors.green
+                          Text(
+                            'Shares: ${widget.member.memberShares}',
+                            style: TextStyle(
+                              color: Colors.white60,
+                              fontSize: 17,
+                            ),
+                          ),
+                          Text(
+                            'Savings: Ksh ${widget.member.memberSavings}',
+                            style: TextStyle(
+                              color: Colors.white60,
+                              fontSize: 17,
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              height: 40,
+                              width: 160,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: Colors.green,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Loan Limit :6000',
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w500,
+                                    // color: Colors.green
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
             SizedBox(height: 12),
